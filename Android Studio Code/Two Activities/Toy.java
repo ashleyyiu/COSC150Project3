@@ -1,44 +1,45 @@
-import java.awt.image.BufferedImage;
+package com.example.ashleyyiu.cosc150project2;
+
+/**
+ * Created by chian on 4/2/2016.
+ */
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import javax.imageio.ImageIO;
-
 public class Toy {
     String toyName = null;
-    BufferedImage image = null;
+    Bitmap image = null;
     int price = 0;
 
     public Toy() {
     }
 
-    public Toy(String toyName, int price, BufferedImage image) {
+    public Toy(String toyName, int price, Bitmap image) {
         this.toyName = toyName;
         this.image = image;
         this.price = price;
     }
 
     public Toy(byte[] byteArray) {
-        try {
-            ByteBuffer buffer = ByteBuffer.wrap(byteArray);
+        ByteBuffer buffer = ByteBuffer.wrap(byteArray);
 
-            int nameLength = buffer.getInt();
-            byte[] nameBuffer = new byte[nameLength ];
-            buffer.get(nameBuffer, 0, nameLength);
-            this.toyName = new String(nameBuffer);
+        int nameLength = buffer.getInt();
+        byte[] nameBuffer = new byte[nameLength ];
+        buffer.get(nameBuffer, 0, nameLength);
+        this.toyName = new String(nameBuffer);
 
-            this.price = buffer.getInt();
+        this.price = buffer.getInt();
 
-            int imageLength = buffer.getInt();
-            byte[] imageBuffer = new byte[imageLength];
-            buffer.get(imageBuffer, 0, imageLength);
-            this.image = ImageIO.read(new ByteArrayInputStream(imageBuffer));
-        }
-        catch (IOException e) {
-            e.printStackTrace(System.out);
-        }
+        int imageLength = buffer.getInt();
+        byte[] imageBuffer = new byte[imageLength];
+        buffer.get(imageBuffer, 0, imageLength);
+        this.image = BitmapFactory.decodeByteArray(imageBuffer, 0, imageLength);
     }
 
     static Toy getToyInfo(byte[] byteArray) {
@@ -48,9 +49,9 @@ public class Toy {
 
     public int getSizeInBytes() {
         int size = 0;
-        size += Integer.BYTES + toyName.length();
-        size += Integer.BYTES;
-        size += Integer.BYTES + getImageSize();
+        size += Integer.SIZE/8 + toyName.length();
+        size += Integer.SIZE/8;
+        size += Integer.SIZE/8 + getImageSize();
 
         return size;
     }
@@ -63,23 +64,18 @@ public class Toy {
         return price;
     }
 
-    public BufferedImage getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
     public int getImageSize() {
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        try {
-            ImageIO.write(image, "jpg", baos);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        //ImageIO.write(image, "jpg", baos);
         return baos.toByteArray().length;
     }
 
     void putIntToByteArray(int number, ByteArrayOutputStream baos) throws IOException {
-        ByteBuffer b = ByteBuffer.allocate(Integer.BYTES);
+        ByteBuffer b = ByteBuffer.allocate(Integer.SIZE/8);
         b.putInt(number);
         baos.write(b.array());
     }
@@ -91,7 +87,7 @@ public class Toy {
             baos.write(toyName.getBytes());
             putIntToByteArray(price, baos);
             putIntToByteArray(getImageSize(), baos);
-            ImageIO.write(image, "jpg", baos);
+            //ImageIO.write(image, "jpg", baos);
         }
         catch (IOException e) {
             e.printStackTrace(System.out);

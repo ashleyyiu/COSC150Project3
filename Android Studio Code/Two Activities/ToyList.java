@@ -1,3 +1,9 @@
+package com.example.ashleyyiu.cosc150project2;
+
+/**
+ * Created by chian on 4/2/2016.
+ */
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -7,41 +13,41 @@ import java.util.ArrayList;
 public class ToyList {
 
 	private ArrayList<Toy> toyList = new ArrayList<Toy>();
-	
+
 	public ToyList() {
 	}
-	
+
 	public ToyList(byte[] byteArray, int length) {
 		ByteBuffer buffer = ByteBuffer.wrap(byteArray);
-		int cursor = 0; 
+		int cursor = 0;
 		while (cursor < length) {
 			int toyLength = buffer.getInt();
 
 			byte[] toyBuffer = new byte[toyLength];
 			buffer.get(toyBuffer, 0, toyLength);
 			Toy toy = new Toy (toyBuffer);
-			
+
 			toyList.add(toy);
-			cursor += Integer.BYTES + toyLength;
+			cursor += Integer.SIZE/8 + toyLength; //Integer.SIZE is # bits of int
 		}
 	}
 
 	public void addToy(Toy toy) {
 		toyList.add(toy);
 	}
-	
+
 	public Toy getToy(int index) {
 		return toyList.get(index);
 	}
-	
+
 	public ArrayList<Toy> getToyList() {
 		return toyList;
 	}
-	
+
 	public int getNumOfToys() {
 		return toyList.size();
 	}
-	
+
 	public int getSizeInBytes() {
 		int size = 0;
 		for (int i = 0; i < toyList.size(); i++) {
@@ -49,13 +55,13 @@ public class ToyList {
 		}
 		return size;
 	}
-	
+
 	void putIntToByteArray(int number, ByteArrayOutputStream baos) throws IOException {
-		ByteBuffer b = ByteBuffer.allocate(Integer.BYTES);
+		ByteBuffer b = ByteBuffer.allocate(Integer.SIZE/8);
 		b.putInt(number);
 		baos.write(b.array());
 	}
-	
+
 	public byte[] toByteArray() {
 		ByteArrayOutputStream baos=new ByteArrayOutputStream();
 		try {
@@ -71,8 +77,8 @@ public class ToyList {
 		}
 		return baos.toByteArray();
 	}
-		
-	public static void readFromFile(String filename) {		
+
+	public static void readFromFile(String filename) {
 		try {
 			RandomAccessFile file = new RandomAccessFile(filename, "r");
 			int length = (int) file.length();
@@ -80,12 +86,12 @@ public class ToyList {
 			file.read(temp);
 			file.close();
 			ToyList toyList = new ToyList(temp, length);
-			toyList.getNumOfToys();			
+			toyList.getNumOfToys();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 }
