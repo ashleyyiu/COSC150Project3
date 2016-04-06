@@ -56,11 +56,6 @@ public class ToyActivity extends AppCompatActivity {
 //        Read toy info
         readToyInfo();
 
-//        Log.d("print", "Toys in list: " + toylist.getNumOfToys());
-////        Toy t1=(Toy) toylist.get(0);
-//        Log.d("print", t1.getToyName() +" costs $" +t1.getPrice());
-//
-//
         ImageView photo1View = (ImageView) findViewById(R.id.photo1View);
 //        ImageView photo2View = (ImageView) findViewById(R.id.photo2View);
 //        photo2View.setImageBitmap(t1.getImage());
@@ -148,15 +143,46 @@ public class ToyActivity extends AppCompatActivity {
         tag  = tag.replace("image", "");
         Log.d("print", "tag is now "+tag);
         int toyNum = Integer.parseInt(tag);
-        Log.d("print", "Toy number is "+toyNum);
-        Log.d("print", toyNameList.get(toyNum)+ " costs " +toyPriceList.get(toyNum));
+        Log.d("print", "Toy number is " + toyNum);
+        Log.d("print", toyNameList.get(toyNum) + " costs " + toyPriceList.get(toyNum));
         Toast.makeText(getApplicationContext(), toyNameList.get(toyNum)+ " costs " +toyPriceList.get(toyNum), Toast.LENGTH_LONG).show();
 
+        // Update price
+        int newPrice;
+        TextView price = (TextView) findViewById(R.id.shoppingCartPrice);
+        String priceText = (String) price.getText();
+        priceText = priceText.replace("Price: $", "");
+        Log.d("print", "priceText:" + priceText);
+        if (priceText!="") {
+            //If there is already a toy in the basket
+            Log.d("print", "There's a toy in the basket");
+            newPrice = Integer.parseInt(priceText);
+            newPrice += toyPriceList.get(toyNum);
+        } else {
+            Log.d("print", "No toys yet");
+            //If no toys in the basket
+            newPrice = toyPriceList.get(toyNum);
+        }
+        Log.d("print", "New price is " + newPrice);
+        price.setText("Price: $"+Integer.toString(newPrice));
+
+        //Update number of items
+        int newNumItems;
+        TextView numItems = (TextView) findViewById(R.id.numItems);
+        String numItemsText = (String) numItems.getText();
+        numItemsText = numItemsText.replace("Number of items: ", "");
+        if (numItemsText!="") {
+            newNumItems = Integer.parseInt(numItemsText);
+            newNumItems+=1;
+        } else {
+            newNumItems=1;
+        }
+        Log.d("print", "Num items: "+newNumItems);
+        numItems.setText("Number of items: " + Integer.toString(newNumItems));
     }
 
 
     private void readToyInfo() {
-//        TextView t = (TextView) findViewById(R.id.allToys);
         String tToPrint = "";
 
         toyNameList = new ArrayList<String>();

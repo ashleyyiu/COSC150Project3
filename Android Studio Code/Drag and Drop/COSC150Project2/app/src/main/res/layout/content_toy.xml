@@ -117,15 +117,60 @@
             </TableLayout>
         </ScrollView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.52">
+
         <ImageButton
-            android:scaleType="centerInside"
-            android:layout_width="300dp"
+                android:scaleType="centerInside"
+                android:layout_width="145dp"
+                android:layout_height="128dp"
+                android:src="@raw/shoppingcart"
+                android:id="@+id/shoppingCartView"
+                android:adjustViewBounds="true"
+                android:layout_gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@raw/shoppingcart"
-            android:id="@+id/shoppingCartView"
-            android:adjustViewBounds="true"
-            android:layout_weight="1"
-            android:layout_gravity="right"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-    </LinearLayout>
+            android:text="Checkout"
+            android:id="@+id/checkoutButton"
+            android:layout_alignTop="@+id/cancelButton"
+            android:layout_toLeftOf="@+id/shoppingCartView"
+            android:layout_toStartOf="@+id/shoppingCartView"
+            android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/cancelButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shoppingCartPrice"
+            android:text="Price: $"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/numItems"
+            android:text="Number of items: "
+            android:layout_above="@+id/shoppingCartPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="18dp" />
+    </RelativeLayout>
+
+</LinearLayout>
