@@ -129,7 +129,7 @@ public class ToyActivity extends AppCompatActivity {
                     Log.d("Drag event", "Exited");
                     Toast.makeText(getApplicationContext(), "Exiting", Toast.LENGTH_LONG).show();
                     break;
-                case DragEvent.ACTION_DROP:/
+                case DragEvent.ACTION_DROP:
                     Log.d("Drag event", "Dropped");
                     Toast.makeText(getApplicationContext(), "You want to purchase a toy.", Toast.LENGTH_LONG).show();
                     updateCart(v);
@@ -174,9 +174,9 @@ public class ToyActivity extends AppCompatActivity {
 
             for (int i=0; i<toyList.getNumOfToys(); i++){
 
-                String viewToFind = "imageView"+String.valueOf(i + 1);
+                String viewToFind = "photo"+String.valueOf(i + 1)+"View";
                 Log.d("print", "viewtofind: " + viewToFind);
-
+                int idToFind = this.getResources().getIdentifier(viewToFind, "id", this.getPackageName());
 
 
                 /**************NEW CODE****************************
@@ -189,7 +189,8 @@ public class ToyActivity extends AppCompatActivity {
 
                 // To convert byte array to Bitmap
                 Bitmap bmpCopy = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
-                ImageView iv = (ImageView) findViewById(R.id.photo1View);
+
+                ImageView iv = (ImageView) findViewById(idToFind);
                 iv.setImageBitmap(bmpCopy);
 
                 //END NEW CODE*******************************************
