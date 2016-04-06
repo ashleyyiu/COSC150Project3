@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,6 +119,7 @@ public class ToyActivity extends AppCompatActivity {
     View.OnDragListener DropListener = new View.OnDragListener() {
         @Override
         public boolean onDrag(View v, DragEvent event) {
+            View dragView = (View) event.getLocalState();
 
             switch (event.getAction()) {
 
@@ -132,7 +134,7 @@ public class ToyActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     Log.d("Drag event", "Dropped");
                     Toast.makeText(getApplicationContext(), "You want to purchase a toy.", Toast.LENGTH_LONG).show();
-                    updateCart(v);
+                    updateCart(dragView);
                     break;
             }
             return true;
@@ -147,7 +149,6 @@ public class ToyActivity extends AppCompatActivity {
         Log.d("print", "tag is now "+tag);
         int toyNum = Integer.parseInt(tag);
         Log.d("print", "Toy number is "+toyNum);
-
         Log.d("print", toyNameList.get(toyNum)+ " costs " +toyPriceList.get(toyNum));
         Toast.makeText(getApplicationContext(), toyNameList.get(toyNum)+ " costs " +toyPriceList.get(toyNum), Toast.LENGTH_LONG).show();
 
